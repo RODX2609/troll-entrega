@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrega · Personaje Troll</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#071214; --bg2:#0C1C1F; --card:#102428; --line:#1C3A3F;
+  --teal:#19C3B2; --teal2:#0E8F84; --orange:#FF7A1A; --orange2:#FFB066;
+  --fg:#EAF6F5; --muted:#86A3A3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;letter-spacing:-.02em}
+
+/* HERO */
+.hero{position:relative;padding:72px 0 64px;overflow:hidden}
+.hero::before{content:"";position:absolute;width:620px;height:620px;right:-160px;top:-220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(25,195,178,.35),transparent 65%);filter:blur(10px)}
+.hero::after{content:"";position:absolute;width:520px;height:520px;left:-200px;bottom:-300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,122,26,.28),transparent 65%)}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.tag::before{content:"";width:28px;height:3px;background:var(--orange);border-radius:2px}
+.hero h1{font-size:clamp(48px,8vw,96px);line-height:.95;margin:18px 0 18px}
+.hero h1 span{background:linear-gradient(90deg,var(--teal),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:480px;font-size:17px}
+.hero-img{border-radius:22px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;
+  box-shadow:0 30px 80px -20px rgba(25,195,178,.35)}
+.hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* STAGE NAV */
+.stages{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.chip{padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;border:1px solid var(--line);color:var(--muted)}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#032623}
+
+/* SECTION */
+section{padding:56px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.num{font-family:"Space Grotesk",system-ui,sans-serif;font-size:14px;font-weight:700;color:var(--orange);letter-spacing:.12em}
+.sec-head h2{font-size:clamp(30px,4vw,44px);margin-top:6px}
+.status{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;
+  background:rgba(25,195,178,.12);color:var(--teal);border:1px solid rgba(25,195,178,.35)}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(25,195,178,.2)}
+
+/* VIDEO BUTTONS */
+.videos{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:40px}
+.vbtn{position:relative;display:flex;align-items:center;gap:18px;padding:24px;border-radius:20px;overflow:hidden;
+  transition:transform .2s ease, box-shadow .2s ease}
+.vbtn:hover{transform:translateY(-3px)}
+.vbtn.render{background:linear-gradient(135deg,var(--orange),#FF9A3D);color:#2A1100;box-shadow:0 18px 40px -18px rgba(255,122,26,.7)}
+.vbtn.proceso{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#022421;box-shadow:0 18px 40px -18px rgba(25,195,178,.7)}
+.play{flex:none;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.25);display:grid;place-items:center}
+.play svg{width:22px;height:22px;margin-left:3px}
+.vbtn small{display:block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.vbtn strong{display:block;font-family:"Space Grotesk",system-ui,sans-serif;font-size:22px;line-height:1.2}
+.vbtn .arrow{margin-left:auto;font-size:22px;font-weight:700}
+.vbtn.pending{filter:saturate(.4);opacity:.7;cursor:not-allowed}
+
+
+/* PDF */
+.pdf{display:flex;align-items:center;gap:22px;padding:22px 24px;margin-bottom:40px;border-radius:20px;background:var(--card);
+  border:1px solid var(--line);position:relative;overflow:hidden}
+.pdf::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:linear-gradient(var(--teal),var(--orange))}
+.pdf .ico{flex:none;width:64px;height:78px;border-radius:10px;background:linear-gradient(160deg,var(--orange),#E65F00);display:grid;place-items:center;
+  font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:15px;color:#2A1100;position:relative}
+.pdf .ico::after{content:"";position:absolute;top:0;right:0;width:18px;height:18px;background:linear-gradient(225deg,var(--card) 50%,rgba(0,0,0,.25) 50%);border-top-right-radius:10px}
+.pdf .info{flex:1;min-width:0}
+.pdf .info small{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.pdf .info h3{font-size:22px;margin:2px 0 4px}
+.pdf .info p{color:var(--muted);font-size:14px}
+.btn.teal{background:var(--teal);color:#032623}
+.btn.teal:hover{background:#3FE0CF}
+@media (max-width:600px){.pdf{flex-wrap:wrap}.pdf .btn{width:100%;justify-content:center}}
+
+/* GALLERY */
+.gal-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.gal-bar h3{font-size:22px}
+.gal-bar p{color:var(--muted);font-size:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;border:0;font-family:inherit}
+.btn.dl-all{background:var(--orange);color:#2A1100}
+.btn.dl-all:hover{background:var(--orange2)}
+.btn[disabled]{opacity:.6;cursor:wait}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s}
+.card:hover{border-color:var(--teal2)}
+.card .ph{aspect-ratio:16/9;overflow:hidden;cursor:zoom-in;background:#000}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.card:hover img{transform:scale(1.04)}
+.card .meta{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px}
+.card .idx{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;color:var(--orange);font-size:13px}
+.card .t{font-size:14px;font-weight:500;flex:1}
+.dl{flex:none;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--teal);display:grid;place-items:center;cursor:pointer}
+.dl:hover{background:var(--teal);color:#032623;border-color:var(--teal)}
+.dl svg{width:18px;height:18px}
+
+/* FUTURE */
+.future{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.fcard{position:relative;padding:24px;border-radius:18px;border:1px dashed var(--line);background:linear-gradient(180deg,var(--bg2),transparent)}
+.fcard .num{color:var(--teal)}
+.fcard h3{font-size:20px;margin:6px 0 8px}
+.fcard p{color:var(--muted);font-size:14px}
+.fcard .soon{display:inline-block;margin-top:16px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);
+  padding:5px 10px;border-radius:999px;background:rgba(255,122,26,.1);border:1px solid rgba(255,122,26,.3)}
+.lock{position:absolute;top:20px;right:20px;color:var(--muted);opacity:.6}
+
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* LIGHTBOX */
+.lb{position:fixed;inset:0;background:rgba(3,10,11,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
+.lb.on{display:flex}
+.lb figure{max-width:1300px;width:100%}
+.lb img{width:100%;max-height:78vh;object-fit:contain;border-radius:12px}
+.lb figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px}
+.lb .x,.lb .nav{position:absolute;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:20px}
+.lb .x{top:20px;right:20px}
+.lb .prev{left:20px;top:50%}
+.lb .next{right:20px;top:50%}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;background:var(--card);border:1px solid var(--line);
+  padding:12px 18px;border-radius:12px;font-size:14px;transition:all .25s;z-index:60;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .future{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:600px){
+  .videos,.grid,.future{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="tag">Entrega de proyecto · Personaje 3D</span>
+      <h1>Personaje<br><span>Troll</span></h1>
+      <p>Aquí encuentras el avance del personaje: capturas del proceso para descargar y los videos de render y de proceso.</p>
+      <div class="stages">
+        <span class="chip on">Etapa 1 · Bloqueo</span>
+        <span class="chip">Etapa 2</span>
+        <span class="chip">Etapa 3</span>
+        <span class="chip">Etapa 4</span>
+        <span class="chip">Etapa 5</span>
+      </div>
+    </div>
+    <div class="hero-img"><img src="img/troll_modelado_15.jpg" alt="Vista previa del bloqueo del troll"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="etapa-1">
+    <div class="sec-head">
+      <div>
+        <div class="num">ETAPA 01</div>
+        <h2>Bloqueo inicial del personaje</h2>
+      </div>
+      <span class="status"><i></i>Entregada</span>
+    </div>
+
+    <div class="videos">
+      <a class="vbtn render" id="btn-render" href="#" target="_blank" rel="noopener">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg></span>
+        <span><small>Video</small><strong>Ver render</strong></span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="vbtn proceso" id="btn-proceso" href="#" target="_blank" rel="noopener">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg></span>
+        <span><small>Video</small><strong>Ver proceso de modelado</strong></span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+
+
+    <div class="pdf">
+      <div class="ico">PDF</div>
+      <div class="info">
+        <small>Documento</small>
+        <h3>Proceso de modelado · Etapa 1</h3>
+        <p>Bloqueo inicial del personaje · 22 páginas · 3 MB</p>
+      </div>
+      <button class="btn teal" id="dlPdf" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+        Descargar PDF
+      </button>
+    </div>
+
+    <div class="gal-bar">
+      <div>
+        <h3>Capturas del proceso</h3>
+        <p>15 imágenes en alta resolución · Haz clic para ampliar</p>
+      </div>
+      <button class="btn dl-all" id="dlAll" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+        Descargar todas (.zip)
+      </button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="proximas">
+    <div class="sec-head">
+      <div>
+        <div class="num">PRÓXIMAS ETAPAS</div>
+        <h2>Lo que viene</h2>
+      </div>
+    </div>
+    <div class="future">
+      <div class="fcard"><span class="lock">🔒</span><div class="num">ETAPA 02</div><h3>Modelado y esculpido</h3><p>Formas definitivas, detalle de rostro, manos y vestuario.</p><span class="soon">Próximamente</span></div>
+      <div class="fcard"><span class="lock">🔒</span><div class="num">ETAPA 03</div><h3>Texturizado</h3><p>Color, materiales y acabados del personaje.</p><span class="soon">Próximamente</span></div>
+      <div class="fcard"><span class="lock">🔒</span><div class="num">ETAPA 04</div><h3>Rig</h3><p>Esqueleto y controles para poder animarlo.</p><span class="soon">Próximamente</span></div>
+      <div class="fcard"><span class="lock">🔒</span><div class="num">ETAPA 05</div><h3>Animación</h3><p>Animación básica y render final.</p><span class="soon">Próximamente</span></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Proyecto Troll · Personaje 3D</span>
+    <span>BY RODX</span>
+  </div>
+</footer>
+
+<div class="lb" id="lb">
+  <button class="x" id="lbX" aria-label="Cerrar">✕</button>
+  <button class="nav prev" id="lbP" aria-label="Anterior">‹</button>
+  <button class="nav next" id="lbN" aria-label="Siguiente">›</button>
+  <figure>
+    <img id="lbImg" alt="">
+    <figcaption><span id="lbT"></span><button class="btn dl-all" id="lbDl" hidden>Descargar</button></figcaption>
+  </figure>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+// ====== LINKS DE DRIVE (pegar aquí) ======
+const LINK_RENDER  = "https://drive.google.com/file/d/1Gu2_HBJq3nz_hleinKtrHlOoGjA5IVq-/view?usp=drive_link";
+const LINK_PROCESO = "https://drive.google.com/file/d/1ClpMoCxM5RWezeXV37Z66Joj83L3q7e1/view?usp=drive_link";
+// =========================================
+
+const shots = [
+  "Referencia montada en el visor",
+  "Esferas base: cabeza y torso",
+  "Proporciones de brazos y piernas",
+  "Bloqueo completo sobre la referencia",
+  "Ajuste de silueta en vista lateral",
+  "Ajuste de volúmenes sobre la referencia",
+  "Pierna y taparrabo en vista lateral",
+  "Topología de las piezas base",
+  "Piezas unidas en una sola malla",
+  "Masas de torso y brazos",
+  "Cuerpo comparado con la referencia",
+  "Formas primarias del rostro",
+  "Ubicación de rasgos y orejas",
+  "Perfil contra la referencia",
+  "Vista previa con iluminación"
+];
+const pad = n => String(n).padStart(2,"0");
+const file = i => `troll_modelado_${pad(i+1)}.jpg`;
+
+function setLink(id, url){
+  const a = document.getElementById(id);
+  if (url && url !== "#") { a.href = url; }
+  else { a.classList.add("pending"); a.removeAttribute("href"); a.title = "Enlace disponible pronto"; }
+}
+setLink("btn-render", LINK_RENDER);
+setLink("btn-proceso", LINK_PROCESO);
+
+const grid = document.getElementById("grid");
+grid.innerHTML = shots.map((t,i)=>`
+  <div class="card">
+    <div class="ph" data-i="${i}"><img loading="lazy" src="thumb/${file(i)}" alt="${t}"></div>
+    <div class="meta">
+      <span class="idx">${pad(i+1)}</span>
+      <span class="t">${t}</span>
+      <button class="dl" data-i="${i}" hidden aria-label="Descargar ${t}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+      </button>
+    </div>
+  </div>`).join("");
+
+const toast = (m)=>{const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("on"),2600)};
+
+// Lightbox
+let cur = 0;
+const lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg"), lbT = document.getElementById("lbT");
+function openLb(i){cur=(i+shots.length)%shots.length;lbImg.src=`img/${file(cur)}`;lbT.textContent=`${pad(cur+1)} · ${shots[cur]}`;lb.classList.add("on")}
+grid.addEventListener("click",e=>{const p=e.target.closest(".ph");if(p)openLb(+p.dataset.i)});
+document.getElementById("lbX").onclick=()=>lb.classList.remove("on");
+document.getElementById("lbP").onclick=()=>openLb(cur-1);
+document.getElementById("lbN").onclick=()=>openLb(cur+1);
+lb.addEventListener("click",e=>{if(e.target===lb)lb.classList.remove("on")});
+document.addEventListener("keydown",e=>{if(!lb.classList.contains("on"))return;
+  if(e.key==="Escape")lb.classList.remove("on");if(e.key==="ArrowLeft")openLb(cur-1);if(e.key==="ArrowRight")openLb(cur+1)});
+
+// Descargas
+async function getBlob(i){const r=await fetch(`img/${file(i)}`);return r.blob()}
+function handleErr(err){
+  if(!err||err.code==="declined")return;
+  if(err.code==="rate_limited"){toast("Espera un momento e inténtalo de nuevo");return}
+  toast("No se pudo descargar en esta vista");
+}
+(async()=>{
+  let downloads=null;
+  try{ downloads = window.claude && await window.claude.use("downloads"); }catch(e){}
+  if(!downloads) return;
+  document.querySelectorAll(".dl").forEach(b=>b.hidden=false);
+  document.getElementById("dlAll").hidden=false;
+  document.getElementById("lbDl").hidden=false;
+  const pdfBtn=document.getElementById("dlPdf"); pdfBtn.hidden=false;
+  pdfBtn.onclick=async()=>{
+    try{ const r=await fetch("docs/Troll_Etapa1_Bloqueo.pdf"); const b=await r.blob();
+      await downloads.save({filename:"Troll_Etapa1_Bloqueo.pdf",data:b}); toast("PDF descargado"); }
+    catch(e){ handleErr(e); }
+  };
+
+  async function saveOne(i){
+    try{ const blob=await getBlob(i); await downloads.save({filename:file(i),data:blob}); toast("Imagen descargada"); }
+    catch(e){ handleErr(e); }
+  }
+  grid.addEventListener("click",e=>{const b=e.target.closest(".dl");if(b)saveOne(+b.dataset.i)});
+  document.getElementById("lbDl").onclick=()=>saveOne(cur);
+
+  const all=document.getElementById("dlAll");
+  all.onclick=async()=>{
+    if(typeof JSZip==="undefined"){toast("No se pudo preparar el .zip");return}
+    all.disabled=true; const label=all.lastChild.textContent; all.lastChild.textContent=" Preparando…";
+    try{
+      const zip=new JSZip();
+      for(let i=0;i<shots.length;i++){zip.file(file(i),await getBlob(i))}
+      const blob=await zip.generateAsync({type:"blob"});
+      await downloads.save({filename:"Troll_Etapa1_Bloqueo.zip",data:blob});
+      toast("Descarga lista");
+    }catch(e){handleErr(e)}
+    finally{all.disabled=false;all.lastChild.textContent=label}
+  };
+})();
+</script>
+</body>
+</html>
