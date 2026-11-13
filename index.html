@@ -314,7 +314,13 @@ function handleErr(err){
 (async()=>{
   let downloads=null;
   try{ downloads = window.claude && await window.claude.use("downloads"); }catch(e){}
-  if(!downloads) return;
+  if(!downloads){ // Fuera de Claude (GitHub Pages): descarga normal del navegador
+    downloads={save:async({filename,data})=>{
+      const u=URL.createObjectURL(data instanceof Blob?data:new Blob([data]));
+      const a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(u),4000);return{status:"saved"};
+    }};
+  }
   document.querySelectorAll(".dl").forEach(b=>b.hidden=false);
   document.getElementById("dlAll").hidden=false;
   document.getElementById("lbDl").hidden=false;
